@@ -14,10 +14,7 @@ You can download one video or all videos of a specific course from DEN.
 * macOS/Linux (tested OK on macOS 10.11/10.12 and Ubuntu 14.04)
 * Python 3 (Install on [macOS](https://docs.python.org/3/using/mac.html)/[Ubuntu](http://askubuntu.com/questions/682869/how-do-i-install-newer-python-versions-using-apt-get))
 * selenium is required to run dendown_all.py. run 'pip install selenium' or use anaconda to install selenium.
-* a chromedriver executable is required for selenium. 
-**  download chromdriver from https://chromedriver.storage.googleapis.com/index.html?path=2.38/
-**  and set up the 'PATH' variable in the environment where the downloading script is running.
-**  Or put the chromedriver exectable under a 'PATH' directory.
+* a chromedriver executable is required for selenium. download chromdriver from https://chromedriver.storage.googleapis.com/index.html?path=2.38/ and set up the 'PATH' variable in the environment where the downloading script is running or put the chromedriver exectable under a 'PATH' directory.
 
 ### Usage
 
