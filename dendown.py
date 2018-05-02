@@ -1,7 +1,7 @@
 import os
 import urllib.request
 import sys
-
+import platform
 import time
 
 if __name__ == '__main__':
@@ -29,11 +29,22 @@ if __name__ == '__main__':
 
     '''Download video segments and concatenate together into a whole video.'''
     timestamp = int(time.time() * 100)
-    os.system('mkdir ./temp_%s/' % timestamp)
-    os.system('curl -o ./temp_%s/part_#1.ts %s/%s\[000-%d\].ts'
+    if platform.system() == 'Windows':
+        os.system('md temp_%s' % timestamp)
+        print('curl -o temp_%s/part_#1.ts %s/%s\[000-%d\].ts'
               % (timestamp, init_url_prefix, video_segment_prefix, num_total_segments - 1))
-    os.system('cat ./temp_%s/part* > %s.ts' % (timestamp, file_name))
-    os.system('rm -rf ./temp_%s/' % timestamp)
+        os.system('curl -o temp_%s/part_#1.ts %s/%s[000-%d].ts'
+              % (timestamp, init_url_prefix, video_segment_prefix, num_total_segments - 1))
+        os.system('cd temp_%s && type part_*.ts > ../%s.ts && cd ..' % (timestamp, file_name))
+        os.system('rd /s /q temp_%s' % timestamp)
+    elif platform.system() == 'Linux':
+        os.system('mkdir ./temp_%s/' % timestamp)
+        os.system('curl -o ./temp_%s/part_#1.ts %s/%s\[000-%d\].ts'
+                % (timestamp, init_url_prefix, video_segment_prefix, num_total_segments - 1))
+        os.system('cat ./temp_%s/part* > %s.ts' % (timestamp, file_name))
+        os.system('rm -rf ./temp_%s/' % timestamp)
+    else:
+        assert(False),'No valid platform detected.'
 
     print()
     print("INFO: %s download completed." % file_name)
