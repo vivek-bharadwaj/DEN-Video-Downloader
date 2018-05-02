@@ -88,7 +88,6 @@ if len(sys.argv) != 4:
 	print('Course is the name of the course to download. e.g.: Course=\'CSCI567\'')
 	return
 
-wget 
 driver = webdriver.Chrome()
 driver.get("https://courses.uscden.net/d2l/login")
 wait(page_has_loaded, 10)
