@@ -22,7 +22,7 @@ You can download one video or all videos of a specific course from DEN.
 
 * Log into USC DEN.
 * Open any lecture video.
-* Copy the link of `Andoid / iOS` button.
+* Copy the link of `Android / iOS` button.
 ![copy-link](./copy-link.png)
 * Open terminal and `cd` into the directory contains the script.
 * Run with command:
