@@ -17,9 +17,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import *
 
+
 def page_has_loaded():
     page_state = driver.execute_script('return document.readyState;')
     return page_state == 'complete'
+
 
 #wait until a condition is hold or expire seconds has elaspsed
 def wait(condition, expire):
@@ -31,6 +33,7 @@ def wait(condition, expire):
             time.sleep(0.1)
     raise Exception('Timeout waiting for {}'.format(condition.__name__))
 
+
 def download(video_url):
     init_url = video_url
     init_url_prefix = init_url.split('/playlist')[0]
@@ -40,7 +43,7 @@ def download(video_url):
     if os.path.isfile(file_name + ".ts"):
         print('%s.ts already exists, skip download.' % file_name)
         return
-		
+
     '''Resolve M3U8 playlist attributes.'''
     print()
     sys.stdout.write('INFO: Resolving M3U8 playlist URL ... ')
@@ -59,8 +62,7 @@ def download(video_url):
 
     '''Download video segments and concatenate together into a whole video.'''
     timestamp = int(time.time() * 100)
-	
-    
+
     if platform.system() == 'Windows':
         os.system('md temp_%s' % timestamp)
         print('curl -o temp_%s/part_#1.ts %s/%s\[000-%d\].ts'
@@ -69,6 +71,7 @@ def download(video_url):
               % (timestamp, init_url_prefix, video_segment_prefix, num_total_segments - 1))
         os.system('cd temp_%s && type part_*.ts > ../%s.ts && cd ..' % (timestamp, file_name))
         os.system('rd /s /q temp_%s' % timestamp)
+        
     elif platform.system() == 'Linux':
         os.system('mkdir ./temp_%s/' % timestamp)
         os.system('curl -o ./temp_%s/part_#1.ts %s/%s\[000-%d\].ts'
@@ -76,17 +79,18 @@ def download(video_url):
         os.system('cat ./temp_%s/part* > %s.ts' % (timestamp, file_name))
         os.system('rm -rf ./temp_%s/' % timestamp)
     else:
-        assert(False),'No valid platform detected.'
-		
+        assert False, 'No valid platform detected.'
+
     print()
     print("INFO: %s download completed." % file_name)
     print()
 
+
 if len(sys.argv) != 4:
-	print('Usage: python3 ./dendown_all.py Username Password Course')
-	print('Username and Password are used to login to DEN.')
-	print('Course is the name of the course to download. e.g.: Course=\'CSCI567\'')
-	return
+    print('Usage: python3 ./dendown_all.py Username Password Course')
+    print('Username and Password are used to login to DEN.')
+    print('Course is the name of the course to download. e.g.: Course=\'CSCI567\'')
+
 
 driver = webdriver.Chrome()
 driver.get("https://courses.uscden.net/d2l/login")
